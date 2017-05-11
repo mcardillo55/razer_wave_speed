@@ -35,14 +35,15 @@ else:
         pickle.dump(slow_wave_pattern, wave_data)
 
 while True:
+    pattern_cat = b''
     for pattern in slow_wave_pattern:
-        if pattern[0] == 0:
+        pattern_cat += pattern
+        if pattern[0] == 5:
+            with open(os.path.join(RAZERKBD_SYSFS_PATH, 'matrix_custom_frame'), 'wb') as custom_frame:
+                custom_frame.write(pattern_cat)
+            pattern_cat = b''
             with open(os.path.join(RAZERKBD_SYSFS_PATH, 'matrix_effect_custom'), 'w') as enable_custom_effect:
                 enable_custom_effect.write('1')
+            sys.stdout.flush()
 
-        with open(os.path.join(RAZERKBD_SYSFS_PATH, 'matrix_custom_frame'), 'wb') as custom_frame:
-            custom_frame.write(pattern)
-
-        sys.stdout.flush()
-
-        time.sleep(0.0010)
+        time.sleep(0.005)
