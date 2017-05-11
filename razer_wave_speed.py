@@ -3,7 +3,7 @@
 #   Desc: Control speed of the Razer 'wave' effect by sending custom values to
 #         the razerkbd driver and varying the sleep() time.
 
-import pyshark
+
 import time
 import os, sys
 import pickle
@@ -16,6 +16,8 @@ if os.path.isfile('razr_wave_data.dat'):
     with open('razr_wave_data.dat', 'rb') as wave_data:
         slow_wave_pattern = pickle.load(wave_data)
 else:
+    import pyshark
+    
     print('analyzing')
     cap = pyshark.FileCapture(PCAP_FILE)
 
